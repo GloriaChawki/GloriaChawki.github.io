@@ -6,10 +6,11 @@
 	<title>Bouncing Box</title>
 	<script src="jquery.min.js"></script>
 	<style>
+		
 		.box {
 			width: 70px;
 			height: 70px;
-			background-color: teal;
+			background-color: #ff8965;
 			font-size: 300%;
 			text-align: center;
 			user-select: none;
@@ -21,7 +22,9 @@
 		}
 
 		.board {
-			height: 100vh;
+			height: 1000vh;
+			background-image: url("img/cat.jpg");
+			background-size: contain;
 		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -52,8 +55,9 @@
 			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
+			function moveBoxTo(newPositionX,newPositionY) {
 				box.css("left", newPositionX);
+				box.css("top", newPositionY);
 			}
 
 			// changes the text displayed on the Box
@@ -66,8 +70,15 @@
 			//////////////////////////////////////////////////////////////////
 
 			// TODO 2 - Variable declarations 
-
-
+			var positionX = 0 ;
+			var points = 0;
+			var speed = 10;
+			var positionY = 0;
+			var speedY = 10;
+			var boardHeight = jQuery(window).height();
+			var randNum = Math.random() * boardWidth;
+			var randNumY = Math.random() * boardHeight;
+			
 
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -75,8 +86,25 @@
 			turn it around! 
 			*/
 			function update() {
-
-
+				//increases posX by 10
+				positionX +=speed;
+				positionY +=speedY;
+				moveBoxTo(positionX,positionY);
+				if (positionX > boardWidth-73) {
+					speed = -speed; 
+				}
+				if (positionX < 0) {
+					speed = -speed;
+				}
+				if (positionY > boardHeight-73) {
+					speedY = -speedY; 
+				}
+				if (positionY < 0) {
+					speedY = -speedY;
+				}
+				
+				
+				
 			};
 
 			/* 
@@ -85,7 +113,24 @@
 			the left side of the screen.
 			*/
 			function handleBoxClick() {
-
+				//increase points
+				changeBoxText(points += 1);
+				//increase speed
+				
+				if (speed > 0) {
+					speed+=3;
+				}else if (speed < 0){
+					speed-=3;
+				}
+				
+				if (speedY > 0) {
+					speedY+=3;
+				}else if (speedY < 0){
+					speedY-=3;
+				}
+				//set box to the left
+				positionX = randNum;
+				positionY= randNumY;
 
 			};
 
